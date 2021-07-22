@@ -1,74 +1,67 @@
-import React, { Component } from 'react';
-import List from './components/list';
+import { useState } from "react";
+import Todo from "./components/todo";
 import './App.css';
+import Header from "./components/header";
+import AddTask from "./components/AddTask";
 
 
-class App extends Component {
-  state = {
-    todo: [
-      { id: 1, value: "Shopping", isActive: false },
-      { id: 2, value: "Planing", isActive: false },
-      { id: 3, value: "Running", isActive: false },
-      { id: 4, value: "Dancing", isActive: false },
-    ]
-  }
-  handleToggle = counter => {
-    // this.setState({ isActive: !this.state.todo.isActive });
-    const todo = [...this.state.todo];
-    const index = todo.indexOf(counter);
-    //todo[index] = { ...counter };
-    let active = todo[index].isActive;
-    todo[index].isActive = !active;
-    this.setState({ todo })
-  }
+const App = () => {
+  const [showAddTask, setShowAddTask] = useState(false)
+  const [todo, setTodo] = useState([
+    {
+      id: 1,
+      value: "Shopping",
+      description: ",dslkpfmsdfdsfsdfd",
+      isActive: false
+    },
+    {
+      id: 2,
+      value: "Planing",
+      description: ",dslkpfmsdfdsfsdfd",
+      isActive: false
+    },
+    {
+      id: 3,
+      value: "Running",
+      description: ",dslkpfmsdfdsfsdfd",
+      isActive: false
+    },
+    {
+      id: 4,
+      value: "Dancing",
+      description: ",dslkpfmsdfdsfsdfd",
+      isActive: false
+    },
+  ])
 
-
-  render() {
-    //const isActive = this.state.todo.isActive;
-    return (
-      <React.Fragment>
-        <div className="wraper">
-          <div className="nav">
-            <h1>My ToDo List</h1>
-          </div>
-          <div className="main">
-            {this.state.todo.map(list => (
-              <List
-                onIcrement={this.handleToggle}
-                key={list.id}
-                todo={this.state.todo}
-                onDelete={this.deleteList}
-                list={list}
-                handleActive={this.handleActive}
-              />
-            ))}
-            {console.log(this.state)}
-            <div>
-              <button className="btn btn-lg button" onClick={() => this.addList()}>+ New Task</button>
-            </div>
-          </div>
-        </div>
-      </React.Fragment>
-    );
+  const addTask = (task) => {
+    const id = Math.floor(Math.random() * 10000) + 1
+    const newTask = { id, ...task }
+    setTodo([...todo, newTask])
   }
 
-
-  addList = () => {
-    let newId = Date.now();
-    let todo = this.state.todo;
-    let result = prompt();
-    if (result !== "" && result !== null) {
-      todo.push({ id: newId, value: result, isActive: false });
-      this.setState({ todo: todo })
-    }
+  const deleteTask = (id) => {
+    setTodo(todo.filter(c => c.id !== id))
   }
 
-
-
-  deleteList = (todoId) => {
-    const todo = this.state.todo.filter(c => c.id !== todoId);
-    this.setState({ todo })
+  const toggleDone = (id) => {
+    setTodo(todo.map((todo) => todo.id === id ? { ...todo, isActive: !todo.isActive } : todo))
   }
+
+  return (
+    <div className="wraper">
+      <Header onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask} />
+      {showAddTask && <AddTask onAdd={addTask} />}
+      <div className="main">
+        {todo.length > 0 ? <Todo
+          todo={todo}
+          onDelete={deleteTask}
+          onToggle={toggleDone} /> : "No Tasks To Show"}
+      </div>
+
+    </div>
+
+  )
 }
 
 export default App;

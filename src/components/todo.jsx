@@ -2,7 +2,7 @@ import List from "./list"
 
 
 
-const Todo = ({ todo, onDelete, onToggle }) => {
+const Todo = ({ todo, onDelete, onToggle, }) => {
     return (
         <>
             {todo.map(list => (
@@ -11,6 +11,7 @@ const Todo = ({ todo, onDelete, onToggle }) => {
                     onDelete={onDelete}
                     list={list}
                     onToggle={onToggle}
+
                 />
             ))}
         </>

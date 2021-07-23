@@ -45,13 +45,27 @@
   justify-content: space-between;  
 }
 
-.list h2 {
+.list_info {
   text-align: left;
   color: gray;
-  max-width: 250px;
+  width: 100%;
   text-overflow: ellipsis;
   word-wrap: break-word;
 }
+
+.list_info h1 {
+  padding: 30px 0 ;
+}
+
+.list h2 {
+  text-align: left;
+  color: gray;
+  width: 250px;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+}
+
+
 
 .list p {
   overflow: hidden;
@@ -89,8 +103,17 @@
 
 
 .line {
-  text-decoration: line-through ;
+  text-decoration-line: line-through ;
+  text-decoration-color: grey;
   list-style-type: disc;
+}
+
+.link {
+  text-decoration: none !important;
+}
+
+a {
+  color: grey !important;
 }
 
 .none {

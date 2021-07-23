@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Todo from "./components/todo";
 import './App.css';
 import Header from "./components/header";
 import AddTask from "./components/AddTask";
+import Info from "./components/Info";
 
 
 const App = () => {
@@ -17,19 +19,19 @@ const App = () => {
     {
       id: 2,
       value: "Planing",
-      description: ",dslkpfmsdfdsfsdfd",
+      description: ",dfsfgfdfdvffvfh",
       isActive: false
     },
     {
       id: 3,
       value: "Running",
-      description: ",dslkpfmsdfdsfsdfd",
+      description: ",kjkjjghghgfdgfdf",
       isActive: false
     },
     {
       id: 4,
       value: "Dancing",
-      description: ",dslkpfmsdfdsfsdfd",
+      description: ",gfghghghgbngbvb",
       isActive: false
     },
   ])
@@ -48,19 +50,33 @@ const App = () => {
     setTodo(todo.map((todo) => todo.id === id ? { ...todo, isActive: !todo.isActive } : todo))
   }
 
+  const findArray = (value) => {
+    return todo.filter(c => c.value === value)
+  }
+
+
   return (
-    <div className="wraper">
-      <Header onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask} />
-      {showAddTask && <AddTask onAdd={addTask} />}
-      <div className="main">
-        {todo.length > 0 ? <Todo
-          todo={todo}
-          onDelete={deleteTask}
-          onToggle={toggleDone} /> : "No Tasks To Show"}
+    <Router>
+      <div className="wraper">
+        <Header onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask} />
+        {showAddTask && <AddTask onAdd={addTask} />}
+        <div className="main">
+          <Route path="/" exact>{todo.length > 0 ?
+            <Todo
+              todo={todo}
+              onDelete={deleteTask}
+              onToggle={toggleDone}
+            /> : "No Tasks To Show"}
+          </Route>
+          <Route path="/:value">
+            <Info
+              findArray={findArray}
+              todo={todo}
+            />
+          </Route>
+        </div>
       </div>
-
-    </div>
-
+    </Router>
   )
 }
 
